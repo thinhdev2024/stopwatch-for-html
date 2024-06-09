@@ -1,0 +1,88 @@
+<html>
+<head>
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #stopwatch {
+      font-size: 80px;
+      font-weight: bold;
+      margin: 00px auto;
+    }
+    #start-button, #stop-button, #reset-button {
+      margin: 10px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 50px;
+      background-color: #323ea8;
+      color: #fff;
+      cursor: pointer;
+    }
+    #start-button:hover, #stop-button:hover, #reset-button:hover {
+      background-color: #bdc2f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>stopwatch</h1>
+  <div id="stopwatch">00:00:00</div>
+  <h1></h1>
+  <button id="start-button">Start</button>
+  <button id="stop-button" disabled>Stop</button>
+  <button id="reset-button">Reset</button>
+  <h2>thinhdev2024</h2>
+
+  <script>
+    let startTime = 0;
+    let endTime = 0;
+    let running = false;
+    let intervalId = 0;
+
+    document.getElementById("start-button").addEventListener("click", start);
+    document.getElementById("stop-button").addEventListener("click", stop);
+    document.getElementById("reset-button").addEventListener("click", reset);
+
+    function start() {
+      startTime = new Date().getTime();
+      running = true;
+      intervalId = setInterval(updateStopwatch, 1000);
+      document.getElementById("start-button").disabled = true;
+      document.getElementById("stop-button").disabled = false;
+    }
+
+    function stop() {
+      endTime = new Date().getTime();
+      running = false;
+      clearInterval(intervalId);
+      document.getElementById("start-button").disabled = false;
+      document.getElementById("stop-button").disabled = true;
+    }
+
+    function reset() {
+      startTime = 0;
+      endTime = 0;
+      running = false;
+      clearInterval(intervalId);
+      document.getElementById("stopwatch").innerHTML = "00:00:00";
+      document.getElementById("start-button").disabled = false;
+      document.getElementById("stop-button").disabled = true;
+    }
+
+    function updateStopwatch() {
+      let currentTime = new Date().getTime();
+      let elapsed_time = currentTime - startTime;
+      let hours = Math.floor(elapsed_time / 3600000);
+      let minutes = Math.floor((elapsed_time % 3600000) / 60000);
+      let seconds = Math.floor((elapsed_time % 60000) / 1000);
+      let stopwatchTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      document.getElementById("stopwatch").innerHTML = stopwatchTime;
+    }
+
+    function pad(number) {
+      return (number < 10 ? "0" : "") + number;
+    }
+  </script>
+</body>
+</html>
